@@ -28,6 +28,7 @@ namespace TcpView.Net
 
         private void CheckBox3CheckedChanged(object sender, EventArgs e)
         {
+            dataGridView1.Rows.Clear();
             WriteToGrid(selectedProcessId);
         }
 
