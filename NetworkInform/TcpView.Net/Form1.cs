@@ -70,13 +70,8 @@ namespace TcpView.Net
 
         private void ListView1SelectedIndexChanged(object sender, EventArgs e)
         {
-			var list = (ListView)sender;
-			if (list.SelectedItems.Count > 0)
-			{
-				selectedProcessId = (int)(list.SelectedItems[0].Tag);
-				WriteToGrid(selectedProcessId);
-			}
-		}
+
+        }
 
         private void WriteToGrid(int procId)
         {
