@@ -56,7 +56,11 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="IPEndPoint.cs" />
     <Compile Include="NetworkInformation.cs" />
+    <Compile Include="NetworkInterface.cs" />
+    <Compile Include="NetworkProperties.cs" />
+    <Compile Include="NetworkPropertiesService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

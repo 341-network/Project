@@ -15,6 +15,141 @@ namespace MTorrent
 
     public static class NetworkInformation
     {
+        public enum NetworkInterfaceType
+        {
+            //
+            // Summary:
+            //     The interface type is not known.
+            Unknown = 1,
+            //
+            // Summary:
+            //     The network interface uses an Ethernet connection. Ethernet is defined in IEEE
+            //     standard 802.3.
+            Ethernet = 6,
+            //
+            // Summary:
+            //     The network interface uses a Token-Ring connection. Token-Ring is defined in
+            //     IEEE standard 802.5.
+            TokenRing = 9,
+            //
+            // Summary:
+            //     The network interface uses a Fiber Distributed Data Interface (FDDI) connection.
+            //     FDDI is a set of standards for data transmission on fiber optic lines in a local
+            //     area network.
+            Fddi = 15,
+            //
+            // Summary:
+            //     The network interface uses a basic rate interface Integrated Services Digital
+            //     Network (ISDN) connection. ISDN is a set of standards for data transmission over
+            //     telephone lines.
+            BasicIsdn = 20,
+            //
+            // Summary:
+            //     The network interface uses a primary rate interface Integrated Services Digital
+            //     Network (ISDN) connection. ISDN is a set of standards for data transmission over
+            //     telephone lines.
+            PrimaryIsdn = 21,
+            //
+            // Summary:
+            //     The network interface uses a Point-To-Point protocol (PPP) connection. PPP is
+            //     a protocol for data transmission using a serial device.
+            Ppp = 23,
+            //
+            // Summary:
+            //     The network interface is a loopback adapter. Such interfaces are often used for
+            //     testing; no traffic is sent over the wire.
+            Loopback = 24,
+            //
+            // Summary:
+            //     The network interface uses an Ethernet 3 megabit/second connection. This version
+            //     of Ethernet is defined in IETF RFC 895.
+            Ethernet3Megabit = 26,
+            //
+            // Summary:
+            //     The network interface uses a Serial Line Internet Protocol (SLIP) connection.
+            //     SLIP is defined in IETF RFC 1055.
+            Slip = 28,
+            //
+            // Summary:
+            //     The network interface uses asynchronous transfer mode (ATM) for data transmission.
+            Atm = 37,
+            //
+            // Summary:
+            //     The network interface uses a modem.
+            GenericModem = 48,
+            //
+            // Summary:
+            //     The network interface uses a Fast Ethernet connection over twisted pair and provides
+            //     a data rate of 100 megabits per second. This type of connection is also known
+            //     as 100Base-T.
+            FastEthernetT = 62,
+            //
+            // Summary:
+            //     The network interface uses a connection configured for ISDN and the X.25 protocol.
+            //     X.25 allows computers on public networks to communicate using an intermediary
+            //     computer.
+            Isdn = 63,
+            //
+            // Summary:
+            //     The network interface uses a Fast Ethernet connection over optical fiber and
+            //     provides a data rate of 100 megabits per second. This type of connection is also
+            //     known as 100Base-FX.
+            FastEthernetFx = 69,
+            //
+            // Summary:
+            //     The network interface uses a wireless LAN connection (IEEE 802.11 standard).
+            Wireless80211 = 71,
+            //
+            // Summary:
+            //     The network interface uses an Asymmetric Digital Subscriber Line (ADSL).
+            AsymmetricDsl = 94,
+            //
+            // Summary:
+            //     The network interface uses a Rate Adaptive Digital Subscriber Line (RADSL).
+            RateAdaptDsl = 95,
+            //
+            // Summary:
+            //     The network interface uses a Symmetric Digital Subscriber Line (SDSL).
+            SymmetricDsl = 96,
+            //
+            // Summary:
+            //     The network interface uses a Very High Data Rate Digital Subscriber Line (VDSL).
+            VeryHighSpeedDsl = 97,
+            //
+            // Summary:
+            //     The network interface uses the Internet Protocol (IP) in combination with asynchronous
+            //     transfer mode (ATM) for data transmission.
+            IPOverAtm = 114,
+            //
+            // Summary:
+            //     The network interface uses a gigabit Ethernet connection and provides a data
+            //     rate of 1,000 megabits per second (1 gigabit per second).
+            GigabitEthernet = 117,
+            //
+            // Summary:
+            //     The network interface uses a tunnel connection.
+            Tunnel = 131,
+            //
+            // Summary:
+            //     The network interface uses a Multirate Digital Subscriber Line.
+            MultiRateSymmetricDsl = 143,
+            //
+            // Summary:
+            //     The network interface uses a High Performance Serial Bus.
+            HighPerformanceSerialBus = 144,
+            //
+            // Summary:
+            //     The network interface uses a mobile broadband interface for WiMax devices.
+            Wman = 237,
+            //
+            // Summary:
+            //     The network interface uses a mobile broadband interface for GSM-based devices.
+            Wwanpp = 243,
+            //
+            // Summary:
+            //     The network interface uses a mobile broadband interface for CDMA-based devices.
+            Wwanpp2 = 244
+        }
         private const int ErrorInsufficientBuffer = 122;
         private const int Successfully = 0;
 

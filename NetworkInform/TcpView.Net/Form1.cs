@@ -13,6 +13,7 @@ namespace TcpView.Net
 {
     public partial class Form1 : Form
     {
+        
         private List<Connection> _allConnections = new List<Connection>();
         private int selectedProcessId = -1;
 
@@ -21,9 +22,10 @@ namespace TcpView.Net
             InitializeComponent();
 
             UpdateInfo();
-				//dataGridView1.DataSource = _allConnections;
 
-          // ExecutionContext.
+            //dataGridView1.DataSource = _allConnections;
+
+            // ExecutionContext.
         }
 
         private void CheckBox3CheckedChanged(object sender, EventArgs e)
@@ -41,6 +43,7 @@ namespace TcpView.Net
 
         private void UpdateInfo()
         {
+            
             _allConnections.Clear();
 
             _allConnections.AddRange(NetworkInformation.GetTcpV4Connections());
@@ -105,6 +108,7 @@ namespace TcpView.Net
                         if (checkBoxUdp.Checked && checkBoxV6.Checked) ok = true;
                         ++udpv6;
                         break;
+                        
                 }
 
                 if (info.State == TcpState.Listen)
@@ -148,6 +152,55 @@ namespace TcpView.Net
         //    WriteToGrid(selectedProcessId);
 //             _allConnections = NetworkInformation.GetProcessTcpActivity(selectedProcessId);
 //             dataGridView1.DataSource = _allConnections;
+        }
+         public  void ShowNetworkProperties()
+        {
+            dataGridView2.Columns[0].Width = 400;
+            var properties = new NetworkPropertiesService().GetNetworkProperties();
+            
+            dataGridView2.Rows.Add(" Network information of " + properties.HostName + "." + properties.DomainName);
+            dataGridView2.Rows.Add(" DHCP scope name : " + properties.DhcpScopeName);
+            dataGridView2.Rows.Add(" WINS proxy : " + properties.IsWinsProxy);
+            dataGridView2.Rows.Add(" Network BIOS node type : " + properties.NodeType);
+            dataGridView2.Rows.Add("Is network available : " + properties.IsNetworkAvailable);
+            dataGridView2.Rows.Add(" Network interfaces : " + properties.NetworkInterfaces.Length);
+            foreach (var adapter in properties.NetworkInterfaces)
+            {
+                dataGridView2.Rows.Add();
+                dataGridView2.Rows.Add("\n " + adapter.Description + " " + adapter.Id);
+                dataGridView2.Rows.Add(" " + string.Empty.PadLeft(adapter.Description.Length + 1 + adapter.Id.Length, '='));
+                dataGridView2.Rows.Add("Name : " + adapter.Name);
+                dataGridView2.Rows.Add("Type : " + adapter.Type);
+                dataGridView2.Rows.Add("Speed : " + adapter.Speed);
+                dataGridView2.Rows.Add("Operational status : " + adapter.Status);
+                dataGridView2.Rows.Add("Physical Address : " + adapter.PhysicalAddress);
+                dataGridView2.Rows.Add("Is Receive Only : " + adapter.IsReceiveOnly);
+                dataGridView2.Rows.Add("Is DNS enabled : " + adapter.IsDnsEnabled);
+                dataGridView2.Rows.Add("Is dynamic DNS enabled : " + adapter.IsDynamicDnsEnabled);
+                dataGridView2.Rows.Add("Supports Multicast : " + adapter.SupportsMulticast);
+              
+            }
+            dataGridView2.Rows.Add("\n IP End Points .............. : " + properties.IPEndPoints.Length);
+           
+            foreach (var ipEndPoint in properties.IPEndPoints)
+            {
+                dataGridView2.Rows.Add("\n " + ipEndPoint);
+                dataGridView2.Rows.Add("Type : " + ipEndPoint.Type);
+                dataGridView2.Rows.Add("Status : " + ipEndPoint.Status);
+                dataGridView2.Rows.Add("Status : " + ipEndPoint.Status);
+                dataGridView2.Rows.Add("Connection : " + ipEndPoint.Connection);
+               
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ShowNetworkProperties();
+        }
+
+        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
