@@ -154,7 +154,8 @@ namespace NetworkInfo
         {
             dataGridView2.Columns[0].Width = 400;
             var properties = new NetworkPropertiesService().GetNetworkProperties();
-            
+            dataGridView2.Rows.Clear();
+
             dataGridView2.Rows.Add(" Network information of " + properties.HostName + "." + properties.DomainName);
             dataGridView2.Rows.Add(" DHCP scope name : " + properties.DhcpScopeName);
             dataGridView2.Rows.Add(" WINS proxy : " + properties.IsWinsProxy);
