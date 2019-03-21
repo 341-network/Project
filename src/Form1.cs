@@ -10,18 +10,73 @@ namespace NetworkInfo
 {
     public partial class Form1 : Form
     {
+        #region Fields
+
         private List<Connection> _allConnections = new List<Connection>();
         private int selectedProcessId = -1;
+
+        #endregion Fields
+
+        #region Constructors
 
         public Form1()
         {
             InitializeComponent();
-
             UpdateInfo();
+        }
 
-            //dataGridView1.DataSource = _allConnections;
+        #endregion Constructors
 
-            // ExecutionContext.
+        #region Methods
+
+        public void ShowNetworkProperties()
+        {
+            dataGridView2.Columns[0].Width = 400;
+            var properties = new NetworkPropertiesService().GetNetworkProperties();
+            dataGridView2.Rows.Clear();
+
+            dataGridView2.Rows.Add(" Network information of " + properties.HostName + "." + properties.DomainName);
+            dataGridView2.Rows.Add(" DHCP scope name : " + properties.DhcpScopeName);
+            dataGridView2.Rows.Add(" WINS proxy : " + properties.IsWinsProxy);
+            dataGridView2.Rows.Add(" Network BIOS node type : " + properties.NodeType);
+            dataGridView2.Rows.Add("Is network available : " + properties.IsNetworkAvailable);
+            dataGridView2.Rows.Add(" Network interfaces : " + properties.NetworkInterfaces.Length);
+            foreach (var adapter in properties.NetworkInterfaces)
+            {
+                dataGridView2.Rows.Add();
+                dataGridView2.Rows.Add("\n " + adapter.Description + " " + adapter.Id);
+                dataGridView2.Rows.Add(" " + string.Empty.PadLeft(adapter.Description.Length + 1 + adapter.Id.Length, '='));
+                dataGridView2.Rows.Add("Name : " + adapter.Name);
+                dataGridView2.Rows.Add("Type : " + adapter.Type);
+                dataGridView2.Rows.Add("Speed : " + adapter.Speed);
+                dataGridView2.Rows.Add("Operational status : " + adapter.Status);
+                dataGridView2.Rows.Add("Physical Address : " + adapter.PhysicalAddress);
+                dataGridView2.Rows.Add("Is Receive Only : " + adapter.IsReceiveOnly);
+                dataGridView2.Rows.Add("Is DNS enabled : " + adapter.IsDnsEnabled);
+                dataGridView2.Rows.Add("Is dynamic DNS enabled : " + adapter.IsDynamicDnsEnabled);
+                dataGridView2.Rows.Add("Supports Multicast : " + adapter.SupportsMulticast);
+            }
+            dataGridView2.Rows.Add("\n IP End Points .............. : " + properties.IPEndPoints.Length);
+
+            foreach (var ipEndPoint in properties.IPEndPoints)
+            {
+                dataGridView2.Rows.Add("\n " + ipEndPoint);
+                dataGridView2.Rows.Add("Type : " + ipEndPoint.Type);
+                dataGridView2.Rows.Add("Status : " + ipEndPoint.Status);
+                dataGridView2.Rows.Add("Status : " + ipEndPoint.Status);
+                dataGridView2.Rows.Add("Connection : " + ipEndPoint.Connection);
+            }
+        }
+
+        private void Button1Click(object sender, EventArgs e)
+        {
+            UpdateInfo();
+            UpdateProcesses();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ShowNetworkProperties();
         }
 
         private void CheckBox3CheckedChanged(object sender, EventArgs e)
@@ -30,17 +85,16 @@ namespace NetworkInfo
             WriteToGrid(selectedProcessId);
         }
 
-        private void Button1Click(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
             UpdateInfo();
-            //             WriteToGrid(selectedProcessId);
             UpdateProcesses();
+            ShowNetworkProperties();
         }
 
         private void UpdateInfo()
         {
             _allConnections.Clear();
-
             _allConnections.AddRange(NetworkInformation.GetTcpV4Connections());
             _allConnections.AddRange(NetworkInformation.GetTcpV6Connections());
             _allConnections.AddRange(NetworkInformation.GetUdpV4Connections());
@@ -50,24 +104,16 @@ namespace NetworkInfo
         private void UpdateProcesses()
         {
             Connection.UpdateProcessList();
-
             dataGridView1.Rows.Clear();
-
             for (int index = 0; index < Connection.Processes.Length; index++)
             {
                 Process process = Connection.Processes[index];
-
                 var item = new ListViewItem();
                 item.Text = process.ProcessName;
                 item.ImageKey = process.Id.ToString();
                 item.Tag = process.Id;
-
                 WriteToGrid(process.Id);
             }
-        }
-
-        private void ListView1SelectedIndexChanged(object sender, EventArgs e)
-        {
         }
 
         private void WriteToGrid(int procId)
@@ -138,69 +184,6 @@ namespace NetworkInfo
             toolStripStatusLabel6.Text = string.Format("EndPoints {0}", endPoints);
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            //timer1.Interval = 1000;
-            // UpdateProcesses();
-            //  Connection.UpdateProcessList();
-            //    WriteToGrid(selectedProcessId);
-            //             _allConnections = NetworkInformation.GetProcessTcpActivity(selectedProcessId);
-            //             dataGridView1.DataSource = _allConnections;
-        }
-
-        public void ShowNetworkProperties()
-        {
-            dataGridView2.Columns[0].Width = 400;
-            var properties = new NetworkPropertiesService().GetNetworkProperties();
-            dataGridView2.Rows.Clear();
-
-            dataGridView2.Rows.Add(" Network information of " + properties.HostName + "." + properties.DomainName);
-            dataGridView2.Rows.Add(" DHCP scope name : " + properties.DhcpScopeName);
-            dataGridView2.Rows.Add(" WINS proxy : " + properties.IsWinsProxy);
-            dataGridView2.Rows.Add(" Network BIOS node type : " + properties.NodeType);
-            dataGridView2.Rows.Add("Is network available : " + properties.IsNetworkAvailable);
-            dataGridView2.Rows.Add(" Network interfaces : " + properties.NetworkInterfaces.Length);
-            foreach (var adapter in properties.NetworkInterfaces)
-            {
-                dataGridView2.Rows.Add();
-                dataGridView2.Rows.Add("\n " + adapter.Description + " " + adapter.Id);
-                dataGridView2.Rows.Add(" " + string.Empty.PadLeft(adapter.Description.Length + 1 + adapter.Id.Length, '='));
-                dataGridView2.Rows.Add("Name : " + adapter.Name);
-                dataGridView2.Rows.Add("Type : " + adapter.Type);
-                dataGridView2.Rows.Add("Speed : " + adapter.Speed);
-                dataGridView2.Rows.Add("Operational status : " + adapter.Status);
-                dataGridView2.Rows.Add("Physical Address : " + adapter.PhysicalAddress);
-                dataGridView2.Rows.Add("Is Receive Only : " + adapter.IsReceiveOnly);
-                dataGridView2.Rows.Add("Is DNS enabled : " + adapter.IsDnsEnabled);
-                dataGridView2.Rows.Add("Is dynamic DNS enabled : " + adapter.IsDynamicDnsEnabled);
-                dataGridView2.Rows.Add("Supports Multicast : " + adapter.SupportsMulticast);
-            }
-            dataGridView2.Rows.Add("\n IP End Points .............. : " + properties.IPEndPoints.Length);
-
-            foreach (var ipEndPoint in properties.IPEndPoints)
-            {
-                dataGridView2.Rows.Add("\n " + ipEndPoint);
-                dataGridView2.Rows.Add("Type : " + ipEndPoint.Type);
-                dataGridView2.Rows.Add("Status : " + ipEndPoint.Status);
-                dataGridView2.Rows.Add("Status : " + ipEndPoint.Status);
-                dataGridView2.Rows.Add("Connection : " + ipEndPoint.Connection);
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            ShowNetworkProperties();
-        }
-
-        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            UpdateInfo();
-            UpdateProcesses();
-            ShowNetworkProperties();
-        }
+        #endregion Methods
     }
 }
