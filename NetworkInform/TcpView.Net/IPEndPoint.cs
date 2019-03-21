@@ -11,9 +11,9 @@ namespace TcpView.Net
         public enum ProtocoleType
         {
             //
-            // Summary:
+            // Summary: 
             //     TCP.
-            TCP = 0,
+            TCP = 0, // tut buv Vasia
             //
             // Summary:
             //     UDP.
