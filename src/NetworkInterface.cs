@@ -5,47 +5,7 @@ namespace NetworkInfo
 {
     public class NetworkInterface
     {
-        public enum OperationalStatus
-        {
-            //
-            // Summary:
-            //     The network interface is up; it can transmit data packets.
-            Up = 1,
-
-            //
-            // Summary:
-            //     The network interface is unable to transmit data packets.
-            Down = 2,
-
-            //
-            // Summary:
-            //     The network interface is running tests.
-            Testing = 3,
-
-            //
-            // Summary:
-            //     The network interface status is not known.
-            Unknown = 4,
-
-            //
-            // Summary:
-            //     The network interface is not in a condition to transmit data packets; it is waiting
-            //     for an external event.
-            Dormant = 5,
-
-            //
-            // Summary:
-            //     The network interface is unable to transmit data packets because of a missing
-            //     component, typically a hardware component.
-            NotPresent = 6,
-
-            //
-            // Summary:
-            //     The network interface is unable to transmit data packets because it runs on top
-            //     of one or more other interfaces, and at least one of these &quot;lower layer&quot;
-            //     interfaces is down.
-            LowerLayerDown = 7
-        }
+        #region Enums
 
         public enum NetworkInterfaceType
         {
@@ -210,6 +170,50 @@ namespace NetworkInfo
             Wwanpp2 = 244
         }
 
+        public enum OperationalStatus
+        {
+            //
+            // Summary:
+            //     The network interface is up; it can transmit data packets.
+            Up = 1,
+
+            //
+            // Summary:
+            //     The network interface is unable to transmit data packets.
+            Down = 2,
+
+            //
+            // Summary:
+            //     The network interface is running tests.
+            Testing = 3,
+
+            //
+            // Summary:
+            //     The network interface status is not known.
+            Unknown = 4,
+
+            //
+            // Summary:
+            //     The network interface is not in a condition to transmit data packets; it is waiting
+            //     for an external event.
+            Dormant = 5,
+
+            //
+            // Summary:
+            //     The network interface is unable to transmit data packets because of a missing
+            //     component, typically a hardware component.
+            NotPresent = 6,
+
+            //
+            // Summary:
+            //     The network interface is unable to transmit data packets because it runs on top
+            //     of one or more other interfaces, and at least one of these &quot;lower layer&quot;
+            //     interfaces is down.
+            LowerLayerDown = 7
+        }
+
+        #endregion Enums
+
         #region Singleton Properties
 
         private static NetworkInterface[] InstanceArray = null;
@@ -217,22 +221,6 @@ namespace NetworkInfo
         #endregion Singleton Properties
 
         #region Properties
-
-        //
-        // Summary:
-        //     Gets the identifier of the network adapter.
-        //
-        // Returns:
-        //     A int32 that contains the identifier.
-        public string Id { get; private set; }
-
-        //
-        // Summary:
-        //     Gets the name of the network adapter.
-        //
-        // Returns:
-        //     A string that contains the adapter name.
-        public string Name { get; private set; }
 
         //
         // Summary:
@@ -244,42 +232,25 @@ namespace NetworkInfo
 
         //
         // Summary:
-        //     Returns the Media Access Control (MAC) or physical address for this adapter.
+        //     Gets the Domain Name System (DNS) suffix associated with this interface.
         //
         // Returns:
-        //     A string that contains the physical address.
-        public string PhysicalAddress { get; private set; }
-
-        //
-        // Summary:
-        //     Gets the interface type.
-        //
-        // Returns:
-        //     An NA.Domain.Models.Enums.NetworkInterfaceType value that specifies the
-        //     network interface type.
-        public NetworkInterfaceType Type { get; private set; }
-
-        //
-        // Summary:
-        //     Gets the current operational state of the network connection.
-        //
-        // Returns:
-        //     One of the NA.Domain.Models.Enums.OperationalStatus values.
-        public OperationalStatus Status { get; private set; }
-
-        //
-        // Summary:
-        //     Gets a boolean value that indicates whether the network interface is set
-        //     to only receive data packets.
-        //
-        // Returns:
-        //     true if the interface only receives network traffic; otherwise, false.
+        //     A string that contains the DNS suffix for this interface, or System.String.Empty
+        //     if there is no DNS suffix for the interface.
         //
         // Exceptions:
         //   T:System.PlatformNotSupportedException:
         //     This property is not valid on computers running operating systems earlier than
-        //     Windows XP.
-        public bool IsReceiveOnly { get; private set; }
+        //     Windows 2000.
+        public string DnsSuffix { get; private set; }
+
+        //
+        // Summary:
+        //     Gets the identifier of the network adapter.
+        //
+        // Returns:
+        //     A int32 that contains the identifier.
+        public string Id { get; private set; }
 
         //
         // Summary:
@@ -304,17 +275,33 @@ namespace NetworkInfo
 
         //
         // Summary:
-        //     Gets the Domain Name System (DNS) suffix associated with this interface.
+        //     Gets a boolean value that indicates whether the network interface is set
+        //     to only receive data packets.
         //
         // Returns:
-        //     A string that contains the DNS suffix for this interface, or System.String.Empty
-        //     if there is no DNS suffix for the interface.
+        //     true if the interface only receives network traffic; otherwise, false.
         //
         // Exceptions:
         //   T:System.PlatformNotSupportedException:
         //     This property is not valid on computers running operating systems earlier than
-        //     Windows 2000.
-        public string DnsSuffix { get; private set; }
+        //     Windows XP.
+        public bool IsReceiveOnly { get; private set; }
+
+        //
+        // Summary:
+        //     Gets the name of the network adapter.
+        //
+        // Returns:
+        //     A string that contains the adapter name.
+        public string Name { get; private set; }
+
+        //
+        // Summary:
+        //     Returns the Media Access Control (MAC) or physical address for this adapter.
+        //
+        // Returns:
+        //     A string that contains the physical address.
+        public string PhysicalAddress { get; private set; }
 
         //
         // Summary:
@@ -323,6 +310,14 @@ namespace NetworkInfo
         // Returns:
         //     A int64 value that specifies the speed in bits per second.
         public long Speed { get; private set; }
+
+        //
+        // Summary:
+        //     Gets the current operational state of the network connection.
+        //
+        // Returns:
+        //     One of the NA.Domain.Models.Enums.OperationalStatus values.
+        public OperationalStatus Status { get; private set; }
 
         //
         // Summary:
@@ -337,6 +332,15 @@ namespace NetworkInfo
         //     This property is not valid on computers running operating systems earlier than
         //     Windows XP.
         public bool SupportsMulticast { get; private set; }
+
+        //
+        // Summary:
+        //     Gets the interface type.
+        //
+        // Returns:
+        //     An NA.Domain.Models.Enums.NetworkInterfaceType value that specifies the
+        //     network interface type.
+        public NetworkInterfaceType Type { get; private set; }
 
         #endregion Properties
 

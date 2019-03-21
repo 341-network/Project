@@ -5,18 +5,7 @@ namespace NetworkInfo
 {
     public class IPEndPoint
     {
-        public enum ProtocoleType
-        {
-            //
-            // Summary:
-            //     TCP.
-            TCP = 0, // tut buv Vasia
-
-            //
-            // Summary:
-            //     UDP.
-            UDP = 1
-        }
+        #region Enums
 
         public enum IPEndPointStatus
         {
@@ -35,6 +24,21 @@ namespace NetworkInfo
             //     Unknown.
             Unknown = 2
         }
+
+        public enum ProtocoleType
+        {
+            //
+            // Summary:
+            //     TCP.
+            TCP = 0, // tut buv Vasia
+
+            //
+            // Summary:
+            //     UDP.
+            UDP = 1
+        }
+
+        #endregion Enums
 
         #region Singleton Properties
 
@@ -70,19 +74,19 @@ namespace NetworkInfo
 
         //
         // Summary:
+        //     Gets the current IP address of endpoint connection.
+        //
+        // Returns:
+        //     An string value of current IP address endpoint connection.
+        public string Connection { get; private set; }
+
+        //
+        // Summary:
         //     Gets the port number of the endpoint.
         //
         // Returns:
         //     An integer value in the range IPEndPoint.MinPort to IPEndPoint.MaxPort indicating the port number of the endpoint.
         public int Port { get; private set; }
-
-        //
-        // Summary:
-        //     Gets the trancfer protocol type of the endpoint.
-        //
-        // Returns:
-        //     An enum value from NA.Domain.Models.Enums.ProtocoleType of the endpoint.
-        public ProtocoleType Type { get; private set; }
 
         //
         // Summary:
@@ -94,11 +98,11 @@ namespace NetworkInfo
 
         //
         // Summary:
-        //     Gets the current IP address of endpoint connection.
+        //     Gets the trancfer protocol type of the endpoint.
         //
         // Returns:
-        //     An string value of current IP address endpoint connection.
-        public string Connection { get; private set; }
+        //     An enum value from NA.Domain.Models.Enums.ProtocoleType of the endpoint.
+        public ProtocoleType Type { get; private set; }
 
         #endregion Properties
 

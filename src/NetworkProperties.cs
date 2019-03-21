@@ -4,6 +4,8 @@ namespace NetworkInfo
 {
     public class NetworkProperties
     {
+        #region Enums
+
         public enum NetBiosNodeType
         {
             //
@@ -32,6 +34,8 @@ namespace NetworkInfo
             Hybrid = 8
         }
 
+        #endregion Enums
+
         #region Singleton Properties
 
         private static NetworkProperties Instance = null;
@@ -39,77 +43,6 @@ namespace NetworkInfo
         #endregion Singleton Properties
 
         #region Properties
-
-        //
-        // Summary:
-        //     Gets the host name for the local computer.
-        //
-        // Returns:
-        //     A string instance that contains the computer's NetBIOS name.
-        //
-        // Exceptions:
-        //   T:System.Net.NetworkInformation.NetworkInformationException:
-        //     A Win32 function call failed.
-        public string HostName { get; private set; }
-
-        //
-        // Summary:
-        //     Gets the domain in which the local computer is registered.
-        //
-        // Returns:
-        //     A string instance that contains the computer's domain name. If the
-        //     computer does not belong to a domain, returns empty string.
-        //
-        // Exceptions:
-        //   T:System.Net.NetworkInformation.NetworkInformationException:
-        //     A Win32 function call failed.
-        public string DomainName { get; private set; }
-
-        //
-        // Summary:
-        //     Gets the Dynamic Host Configuration Protocol (DHCP) scope name.
-        //
-        // Returns:
-        //     A string instance that contains the computer's DHCP scope name.
-        //
-        // Exceptions:
-        //   T:System.Net.NetworkInformation.NetworkInformationException:
-        //     A Win32 function call failed.
-        public string DhcpScopeName { get; private set; }
-
-        //
-        // Summary:
-        //     Gets a boolean value that specifies whether the local computer is acting
-        //     as a Windows Internet Name Service (WINS) proxy.
-        //
-        // Returns:
-        //     true if the local computer is a WINS proxy; otherwise, false.
-        //
-        // Exceptions:
-        //   T:System.Net.NetworkInformation.NetworkInformationException:
-        //     A Win32 function call failed.
-        public bool IsWinsProxy { get; private set; }
-
-        //
-        // Summary:
-        //     Gets the Network Basic Input/Output System (NetBIOS) node type of the local computer.
-        //
-        // Returns:
-        //     A NA.Domain.Models.Enums.NetBiosNodeType value.
-        //
-        // Exceptions:
-        //   T:System.Net.NetworkInformation.NetworkInformationException:
-        //     A Win32 function call failed.
-        public NetBiosNodeType NodeType { get; private set; }
-
-        //
-        // Summary:
-        //     Indicates whether any network connection is available.
-        //
-        // Returns:
-        //     true if a network connection is available; otherwise, false.
-        public bool IsNetworkAvailable =>
-            System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable();
 
         //
         // Summary:
@@ -149,13 +82,84 @@ namespace NetworkInfo
 
         //
         // Summary:
-        //     Gets NetworkInterface array of configuration information for a network interfaces.
-        public NetworkInterface[] NetworkInterfaces { get; private set; }
+        //     Gets the Dynamic Host Configuration Protocol (DHCP) scope name.
+        //
+        // Returns:
+        //     A string instance that contains the computer's DHCP scope name.
+        //
+        // Exceptions:
+        //   T:System.Net.NetworkInformation.NetworkInformationException:
+        //     A Win32 function call failed.
+        public string DhcpScopeName { get; private set; }
+
+        //
+        // Summary:
+        //     Gets the domain in which the local computer is registered.
+        //
+        // Returns:
+        //     A string instance that contains the computer's domain name. If the
+        //     computer does not belong to a domain, returns empty string.
+        //
+        // Exceptions:
+        //   T:System.Net.NetworkInformation.NetworkInformationException:
+        //     A Win32 function call failed.
+        public string DomainName { get; private set; }
+
+        //
+        // Summary:
+        //     Gets the host name for the local computer.
+        //
+        // Returns:
+        //     A string instance that contains the computer's NetBIOS name.
+        //
+        // Exceptions:
+        //   T:System.Net.NetworkInformation.NetworkInformationException:
+        //     A Win32 function call failed.
+        public string HostName { get; private set; }
 
         //
         // Summary:
         //     Gets IPEndPoint array of configuration information for a IP end points.
         public IPEndPoint[] IPEndPoints { get; private set; }
+
+        //
+        // Summary:
+        //     Indicates whether any network connection is available.
+        //
+        // Returns:
+        //     true if a network connection is available; otherwise, false.
+        public bool IsNetworkAvailable =>
+            System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable();
+
+        //
+        // Summary:
+        //     Gets a boolean value that specifies whether the local computer is acting
+        //     as a Windows Internet Name Service (WINS) proxy.
+        //
+        // Returns:
+        //     true if the local computer is a WINS proxy; otherwise, false.
+        //
+        // Exceptions:
+        //   T:System.Net.NetworkInformation.NetworkInformationException:
+        //     A Win32 function call failed.
+        public bool IsWinsProxy { get; private set; }
+
+        //
+        // Summary:
+        //     Gets NetworkInterface array of configuration information for a network interfaces.
+        public NetworkInterface[] NetworkInterfaces { get; private set; }
+
+        //
+        // Summary:
+        //     Gets the Network Basic Input/Output System (NetBIOS) node type of the local computer.
+        //
+        // Returns:
+        //     A NA.Domain.Models.Enums.NetBiosNodeType value.
+        //
+        // Exceptions:
+        //   T:System.Net.NetworkInformation.NetworkInformationException:
+        //     A Win32 function call failed.
+        public NetBiosNodeType NodeType { get; private set; }
 
         #endregion Properties
 

@@ -13,6 +13,16 @@ namespace MTorrent
 
     public static class NetworkInformation
     {
+        #region Fields
+
+        private const int ErrorInsufficientBuffer = 122;
+
+        private const int Successfully = 0;
+
+        #endregion Fields
+
+        #region Enums
+
         public enum NetworkInterfaceType
         {
             //
@@ -176,16 +186,9 @@ namespace MTorrent
             Wwanpp2 = 244
         }
 
-        private const int ErrorInsufficientBuffer = 122;
-        private const int Successfully = 0;
+        #endregion Enums
 
-        [DllImport("iphlpapi.dll", SetLastError = true)]
-        private static extern uint GetExtendedTcpTable(IntPtr pTcpTable, ref int dwOutBufLen, bool sort,
-            IpVersion ipVersion, TcpTableClass tblClass, int reserved);
-
-        [DllImport("iphlpapi.dll", SetLastError = true)]
-        private static extern uint GetExtendedUdpTable(IntPtr pTcpTable, ref int dwOutBufLen, bool sort,
-            IpVersion ipVersion, UdpTableClass tblClass, int reserved);
+        #region Methods
 
         public static List<Connection> GetProcessTcpActivity(int pid)
         {
@@ -213,9 +216,9 @@ namespace MTorrent
             return list;
         }
 
-        public static Connection[] GetTcpV6Connections()
+        public static Connection[] GetTcpV4Connections()
         {
-            Tcp6RowOwnerPid[] t = GetTcpConnections<Tcp6RowOwnerPid>(IpVersion.IPv6);
+            TcpRowOwnerPid[] t = GetTcpConnections<TcpRowOwnerPid>(IpVersion.IPv4);
             Connection[] connectInfo = new Connection[t.Length];
             for (int i = 0; i < t.Length; i++)
             {
@@ -224,9 +227,9 @@ namespace MTorrent
             return connectInfo;
         }
 
-        public static Connection[] GetTcpV4Connections()
+        public static Connection[] GetTcpV6Connections()
         {
-            TcpRowOwnerPid[] t = GetTcpConnections<TcpRowOwnerPid>(IpVersion.IPv4);
+            Tcp6RowOwnerPid[] t = GetTcpConnections<Tcp6RowOwnerPid>(IpVersion.IPv6);
             Connection[] connectInfo = new Connection[t.Length];
             for (int i = 0; i < t.Length; i++)
             {
@@ -258,25 +261,50 @@ namespace MTorrent
             return connectInfo;
         }
 
-        private static void ReadData<T>(IntPtr buffer, out T[] tTable)
+        [DllImport("iphlpapi.dll", SetLastError = true)]
+        private static extern uint GetExtendedTcpTable(IntPtr pTcpTable, ref int dwOutBufLen, bool sort,
+            IpVersion ipVersion, TcpTableClass tblClass, int reserved);
+
+        [DllImport("iphlpapi.dll", SetLastError = true)]
+        private static extern uint GetExtendedUdpTable(IntPtr pTcpTable, ref int dwOutBufLen, bool sort,
+            IpVersion ipVersion, UdpTableClass tblClass, int reserved);
+
+        private static T[] GetTcpConnections<T>(IpVersion ipVersion)
         {
-            Type rowType = typeof(T);
-            int sizeRow = Marshal.SizeOf(rowType);
-            long buffAddress = buffer.ToInt64();
+            T[] tTable;
 
-            int count = Marshal.ReadInt32(buffer);
-            int offcet = Marshal.SizeOf(typeof(Int32));
+            int buffSize = 0;
 
-            tTable = new T[count];
-            for (int i = 0; i < tTable.Length; i++)
+            // how much memory do we need?
+            GetExtendedTcpTable(IntPtr.Zero, ref buffSize, false, ipVersion, TcpTableClass.TcpTableOwnerPidAll, 0);
+
+            IntPtr buffer = Marshal.AllocHGlobal(buffSize);
+            try
             {
-                //calc position for next array element
-                var memoryPos = new IntPtr(buffAddress + offcet);
-                //read element
-                tTable[i] = (T)Marshal.PtrToStructure(memoryPos, rowType);
+                uint retVal = GetExtendedTcpTable(buffer, ref buffSize, false, ipVersion,
+                                                  TcpTableClass.TcpTableOwnerPidAll, 0);
 
-                offcet += sizeRow;
+                while (retVal == ErrorInsufficientBuffer) //buffer should be greater?
+                {
+                    buffer = Marshal.ReAllocHGlobal(buffer, new IntPtr(buffSize));
+                    retVal = GetExtendedTcpTable(buffer, ref buffSize, false, ipVersion,
+                                                 TcpTableClass.TcpTableOwnerPidAll, 0);
+                }
+
+                if (retVal != Successfully) return null;
+
+                ReadData(buffer, out tTable);
             }
+            catch (Exception)
+            {
+                return null;
+            }
+            finally
+            {
+                // Free the Memory
+                Marshal.FreeHGlobal(buffer);
+            }
+            return tTable;
         }
 
         private static T[] GetUdpConnections<T>(IpVersion ipVersion)
@@ -317,43 +345,28 @@ namespace MTorrent
             return tTable;
         }
 
-        private static T[] GetTcpConnections<T>(IpVersion ipVersion)
+        private static void ReadData<T>(IntPtr buffer, out T[] tTable)
         {
-            T[] tTable;
+            Type rowType = typeof(T);
+            int sizeRow = Marshal.SizeOf(rowType);
+            long buffAddress = buffer.ToInt64();
 
-            int buffSize = 0;
+            int count = Marshal.ReadInt32(buffer);
+            int offcet = Marshal.SizeOf(typeof(Int32));
 
-            // how much memory do we need?
-            GetExtendedTcpTable(IntPtr.Zero, ref buffSize, false, ipVersion, TcpTableClass.TcpTableOwnerPidAll, 0);
-
-            IntPtr buffer = Marshal.AllocHGlobal(buffSize);
-            try
+            tTable = new T[count];
+            for (int i = 0; i < tTable.Length; i++)
             {
-                uint retVal = GetExtendedTcpTable(buffer, ref buffSize, false, ipVersion,
-                                                  TcpTableClass.TcpTableOwnerPidAll, 0);
+                //calc position for next array element
+                var memoryPos = new IntPtr(buffAddress + offcet);
+                //read element
+                tTable[i] = (T)Marshal.PtrToStructure(memoryPos, rowType);
 
-                while (retVal == ErrorInsufficientBuffer) //buffer should be greater?
-                {
-                    buffer = Marshal.ReAllocHGlobal(buffer, new IntPtr(buffSize));
-                    retVal = GetExtendedTcpTable(buffer, ref buffSize, false, ipVersion,
-                                                 TcpTableClass.TcpTableOwnerPidAll, 0);
-                }
-
-                if (retVal != Successfully) return null;
-
-                ReadData(buffer, out tTable);
+                offcet += sizeRow;
             }
-            catch (Exception)
-            {
-                return null;
-            }
-            finally
-            {
-                // Free the Memory
-                Marshal.FreeHGlobal(buffer);
-            }
-            return tTable;
         }
+
+        #endregion Methods
 
         #region Nested type: Tcp6RowOwnerPid
 

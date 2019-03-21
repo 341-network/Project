@@ -17,15 +17,17 @@ namespace MTorrent
 
     public class Connection
     {
-        private static Process[] _allProc;
+        #region Fields
 
         public static SortedList<int, string> HostNames = new SortedList<int, string>();
-
+        private static Process[] _allProc;
         private ConnectType _connectType;
         private IPEndPoint _localEndPoint;
         private uint _owningProcessId;
         private IPEndPoint _remoteEndPoint;
         private TcpState _state;
+
+        #endregion Fields
 
         #region Constructors
 
@@ -94,9 +96,16 @@ namespace MTorrent
 
         #endregion Constructors
 
+        #region Properties
+
         public static Process[] Processes
         {
             get { return _allProc; }
+        }
+
+        public ConnectType ConnectType
+        {
+            get { return _connectType; }
         }
 
         [Browsable(false)]
@@ -113,6 +122,17 @@ namespace MTorrent
                 return _remoteEndPoint.ToString();
             }
             //             set { _hostName = value; }
+        }
+
+        public IPEndPoint LocalEndPoint
+        {
+            get { return _localEndPoint; }
+        }
+
+        [Browsable(false)]
+        public uint OwningPid
+        {
+            get { return _owningProcessId; }
         }
 
         public string OwningProcess
@@ -135,17 +155,6 @@ namespace MTorrent
             }
         }
 
-        [Browsable(false)]
-        public uint OwningPid
-        {
-            get { return _owningProcessId; }
-        }
-
-        public IPEndPoint LocalEndPoint
-        {
-            get { return _localEndPoint; }
-        }
-
         public IPEndPoint RemoteEndPoint
         {
             get { return _remoteEndPoint; }
@@ -156,10 +165,9 @@ namespace MTorrent
             get { return _state; }
         }
 
-        public ConnectType ConnectType
-        {
-            get { return _connectType; }
-        }
+        #endregion Properties
+
+        #region Methods
 
         public static void UpdateProcessList()
         {
@@ -174,6 +182,16 @@ namespace MTorrent
             Array.Sort(_allProc, (p1, p2) => p1.Id - p2.Id);
         }
 
+        public bool Equals(Connection other)
+        {
+            return _remoteEndPoint.GetHashCode() == other._remoteEndPoint.GetHashCode();
+        }
+
+        public bool Equals(IPEndPoint other)
+        {
+            return _remoteEndPoint.GetHashCode() == other.GetHashCode();
+        }
+
         private static UInt16 NetworkOrderToHost(UInt32 dwPort)
         {
             var b = new Byte[2];
@@ -185,14 +203,6 @@ namespace MTorrent
             return BitConverter.ToUInt16(b, 0);
         }
 
-        public bool Equals(Connection other)
-        {
-            return _remoteEndPoint.GetHashCode() == other._remoteEndPoint.GetHashCode();
-        }
-
-        public bool Equals(IPEndPoint other)
-        {
-            return _remoteEndPoint.GetHashCode() == other.GetHashCode();
-        }
+        #endregion Methods
     }
 }
