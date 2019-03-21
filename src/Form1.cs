@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Net;
 using System.Net.NetworkInformation;
-using System.Threading;
 using System.Windows.Forms;
 using MTorrent;
-using System.ComponentModel;
 
-namespace TcpView.Net
+namespace NetworkInfo
 {
     public partial class Form1 : Form
     {
