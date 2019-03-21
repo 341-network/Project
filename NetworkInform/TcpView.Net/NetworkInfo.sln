@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcpView.Net", "TcpView.Net.csproj", "{8B9A258F-AEFD-471E-B5A6-1B076A83253A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkInfo", "NetworkInfo.csproj", "{8B9A258F-AEFD-471E-B5A6-1B076A83253A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
