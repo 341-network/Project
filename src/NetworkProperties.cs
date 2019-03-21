@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NetworkInfo
 {
@@ -14,18 +10,22 @@ namespace NetworkInfo
             // Summary:
             //     An unknown node type.
             Unknown = 0,
+
             //
             // Summary:
             //     A broadcast node.
             Broadcast = 1,
+
             //
             // Summary:
             //     A peer-to-peer node.
             Peer2Peer = 2,
+
             //
             // Summary:
             //     A mixed node.
             Mixed = 4,
+
             //
             // Summary:
             //     A hybrid node.
@@ -36,7 +36,7 @@ namespace NetworkInfo
 
         private static NetworkProperties Instance = null;
 
-        #endregion
+        #endregion Singleton Properties
 
         #region Properties
 
@@ -51,6 +51,7 @@ namespace NetworkInfo
         //   T:System.Net.NetworkInformation.NetworkInformationException:
         //     A Win32 function call failed.
         public string HostName { get; private set; }
+
         //
         // Summary:
         //     Gets the domain in which the local computer is registered.
@@ -63,6 +64,7 @@ namespace NetworkInfo
         //   T:System.Net.NetworkInformation.NetworkInformationException:
         //     A Win32 function call failed.
         public string DomainName { get; private set; }
+
         //
         // Summary:
         //     Gets the Dynamic Host Configuration Protocol (DHCP) scope name.
@@ -74,6 +76,7 @@ namespace NetworkInfo
         //   T:System.Net.NetworkInformation.NetworkInformationException:
         //     A Win32 function call failed.
         public string DhcpScopeName { get; private set; }
+
         //
         // Summary:
         //     Gets a boolean value that specifies whether the local computer is acting
@@ -86,6 +89,7 @@ namespace NetworkInfo
         //   T:System.Net.NetworkInformation.NetworkInformationException:
         //     A Win32 function call failed.
         public bool IsWinsProxy { get; private set; }
+
         //
         // Summary:
         //     Gets the Network Basic Input/Output System (NetBIOS) node type of the local computer.
@@ -97,6 +101,7 @@ namespace NetworkInfo
         //   T:System.Net.NetworkInformation.NetworkInformationException:
         //     A Win32 function call failed.
         public NetBiosNodeType NodeType { get; private set; }
+
         //
         // Summary:
         //     Indicates whether any network connection is available.
@@ -146,12 +151,13 @@ namespace NetworkInfo
         // Summary:
         //     Gets NetworkInterface array of configuration information for a network interfaces.
         public NetworkInterface[] NetworkInterfaces { get; private set; }
+
         //
         // Summary:
         //     Gets IPEndPoint array of configuration information for a IP end points.
         public IPEndPoint[] IPEndPoints { get; private set; }
 
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
@@ -173,7 +179,6 @@ namespace NetworkInfo
         public static NetworkProperties GetNetworkProperties() =>
             Instance ?? (Instance = new NetworkProperties());
 
-        #endregion
-
+        #endregion Constructors
     }
 }

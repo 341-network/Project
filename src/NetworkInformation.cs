@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
-using System.Net.Sockets;
 
 namespace MTorrent
 {
@@ -21,146 +19,173 @@ namespace MTorrent
             // Summary:
             //     The interface type is not known.
             Unknown = 1,
+
             //
             // Summary:
             //     The network interface uses an Ethernet connection. Ethernet is defined in IEEE
             //     standard 802.3.
             Ethernet = 6,
+
             //
             // Summary:
             //     The network interface uses a Token-Ring connection. Token-Ring is defined in
             //     IEEE standard 802.5.
             TokenRing = 9,
+
             //
             // Summary:
             //     The network interface uses a Fiber Distributed Data Interface (FDDI) connection.
             //     FDDI is a set of standards for data transmission on fiber optic lines in a local
             //     area network.
             Fddi = 15,
+
             //
             // Summary:
             //     The network interface uses a basic rate interface Integrated Services Digital
             //     Network (ISDN) connection. ISDN is a set of standards for data transmission over
             //     telephone lines.
             BasicIsdn = 20,
+
             //
             // Summary:
             //     The network interface uses a primary rate interface Integrated Services Digital
             //     Network (ISDN) connection. ISDN is a set of standards for data transmission over
             //     telephone lines.
             PrimaryIsdn = 21,
+
             //
             // Summary:
             //     The network interface uses a Point-To-Point protocol (PPP) connection. PPP is
             //     a protocol for data transmission using a serial device.
             Ppp = 23,
+
             //
             // Summary:
             //     The network interface is a loopback adapter. Such interfaces are often used for
             //     testing; no traffic is sent over the wire.
             Loopback = 24,
+
             //
             // Summary:
             //     The network interface uses an Ethernet 3 megabit/second connection. This version
             //     of Ethernet is defined in IETF RFC 895.
             Ethernet3Megabit = 26,
+
             //
             // Summary:
             //     The network interface uses a Serial Line Internet Protocol (SLIP) connection.
             //     SLIP is defined in IETF RFC 1055.
             Slip = 28,
+
             //
             // Summary:
             //     The network interface uses asynchronous transfer mode (ATM) for data transmission.
             Atm = 37,
+
             //
             // Summary:
             //     The network interface uses a modem.
             GenericModem = 48,
+
             //
             // Summary:
             //     The network interface uses a Fast Ethernet connection over twisted pair and provides
             //     a data rate of 100 megabits per second. This type of connection is also known
             //     as 100Base-T.
             FastEthernetT = 62,
+
             //
             // Summary:
             //     The network interface uses a connection configured for ISDN and the X.25 protocol.
             //     X.25 allows computers on public networks to communicate using an intermediary
             //     computer.
             Isdn = 63,
+
             //
             // Summary:
             //     The network interface uses a Fast Ethernet connection over optical fiber and
             //     provides a data rate of 100 megabits per second. This type of connection is also
             //     known as 100Base-FX.
             FastEthernetFx = 69,
+
             //
             // Summary:
             //     The network interface uses a wireless LAN connection (IEEE 802.11 standard).
             Wireless80211 = 71,
+
             //
             // Summary:
             //     The network interface uses an Asymmetric Digital Subscriber Line (ADSL).
             AsymmetricDsl = 94,
+
             //
             // Summary:
             //     The network interface uses a Rate Adaptive Digital Subscriber Line (RADSL).
             RateAdaptDsl = 95,
+
             //
             // Summary:
             //     The network interface uses a Symmetric Digital Subscriber Line (SDSL).
             SymmetricDsl = 96,
+
             //
             // Summary:
             //     The network interface uses a Very High Data Rate Digital Subscriber Line (VDSL).
             VeryHighSpeedDsl = 97,
+
             //
             // Summary:
             //     The network interface uses the Internet Protocol (IP) in combination with asynchronous
             //     transfer mode (ATM) for data transmission.
             IPOverAtm = 114,
+
             //
             // Summary:
             //     The network interface uses a gigabit Ethernet connection and provides a data
             //     rate of 1,000 megabits per second (1 gigabit per second).
             GigabitEthernet = 117,
+
             //
             // Summary:
             //     The network interface uses a tunnel connection.
             Tunnel = 131,
+
             //
             // Summary:
             //     The network interface uses a Multirate Digital Subscriber Line.
             MultiRateSymmetricDsl = 143,
+
             //
             // Summary:
             //     The network interface uses a High Performance Serial Bus.
             HighPerformanceSerialBus = 144,
+
             //
             // Summary:
             //     The network interface uses a mobile broadband interface for WiMax devices.
             Wman = 237,
+
             //
             // Summary:
             //     The network interface uses a mobile broadband interface for GSM-based devices.
             Wwanpp = 243,
+
             //
             // Summary:
             //     The network interface uses a mobile broadband interface for CDMA-based devices.
             Wwanpp2 = 244
         }
+
         private const int ErrorInsufficientBuffer = 122;
         private const int Successfully = 0;
 
         [DllImport("iphlpapi.dll", SetLastError = true)]
-        private static extern uint GetExtendedTcpTable(IntPtr pTcpTable, ref int dwOutBufLen,bool sort,
+        private static extern uint GetExtendedTcpTable(IntPtr pTcpTable, ref int dwOutBufLen, bool sort,
             IpVersion ipVersion, TcpTableClass tblClass, int reserved);
 
         [DllImport("iphlpapi.dll", SetLastError = true)]
-        private static extern uint GetExtendedUdpTable(IntPtr pTcpTable, ref int dwOutBufLen,bool sort,
+        private static extern uint GetExtendedUdpTable(IntPtr pTcpTable, ref int dwOutBufLen, bool sort,
             IpVersion ipVersion, UdpTableClass tblClass, int reserved);
-        
 
         public static List<Connection> GetProcessTcpActivity(int pid)
         {
@@ -168,7 +193,7 @@ namespace MTorrent
             TcpRowOwnerPid[] t4 = GetTcpConnections<TcpRowOwnerPid>(IpVersion.IPv4);
 
             List<Connection> list = new List<Connection>();
-            
+
             for (int i = 0; i < t6.Length; i++)
             {
                 if (pid < 0 || t6[i].OwningPid == pid)
@@ -184,7 +209,7 @@ namespace MTorrent
                     list.Add(new Connection(ref t4[i]));
                 }
             }
-            
+
             return list;
         }
 
@@ -201,7 +226,7 @@ namespace MTorrent
 
         public static Connection[] GetTcpV4Connections()
         {
-            TcpRowOwnerPid[] t = GetTcpConnections < TcpRowOwnerPid>(IpVersion.IPv4);
+            TcpRowOwnerPid[] t = GetTcpConnections<TcpRowOwnerPid>(IpVersion.IPv4);
             Connection[] connectInfo = new Connection[t.Length];
             for (int i = 0; i < t.Length; i++)
             {
@@ -256,7 +281,7 @@ namespace MTorrent
 
         private static T[] GetUdpConnections<T>(IpVersion ipVersion)
         {
-           T[] tTable;
+            T[] tTable;
 
             int buffSize = 0;
 
@@ -272,7 +297,7 @@ namespace MTorrent
                 while (retVal == ErrorInsufficientBuffer) //buffer should be greater?
                 {
                     buffer = Marshal.ReAllocHGlobal(buffer, new IntPtr(buffSize));
-                    retVal = GetExtendedUdpTable(buffer, ref buffSize, false, ipVersion,UdpTableClass.UdpTableOwnerPid, 0);
+                    retVal = GetExtendedUdpTable(buffer, ref buffSize, false, ipVersion, UdpTableClass.UdpTableOwnerPid, 0);
                 }
 
                 if (retVal != Successfully)
@@ -337,17 +362,20 @@ namespace MTorrent
         {
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
             public byte[] LocalAddr;
+
             public uint LocalScopeId;
             public uint LocalPort;
+
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
             public byte[] RemoteAddr;
+
             public uint RemoteScopeId;
             public uint RemotePort;
             public TcpState State;
             public uint OwningPid;
         }
 
-        #endregion
+        #endregion Nested type: Tcp6RowOwnerPid
 
         #region Nested type: TcpRowOwnerPid
 
@@ -362,7 +390,7 @@ namespace MTorrent
             public uint OwningPid;
         }
 
-        #endregion
+        #endregion Nested type: TcpRowOwnerPid
 
         #region Nested type: TcpTableClass
 
@@ -379,7 +407,7 @@ namespace MTorrent
             TcpTableOwnerModuleAll
         }
 
-        #endregion
+        #endregion Nested type: TcpTableClass
 
         #region Nested type: Udp6RowOwnerPid
 
@@ -388,12 +416,13 @@ namespace MTorrent
         {
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
             public byte[] LocalAddr;
+
             public uint LocalScopeId;
             public uint LocalPort;
             public uint OwningPid;
         }
 
-        #endregion
+        #endregion Nested type: Udp6RowOwnerPid
 
         #region Nested type: UdpRowOwnerPid
 
@@ -405,7 +434,7 @@ namespace MTorrent
             public uint OwningPid;
         }
 
-        #endregion
+        #endregion Nested type: UdpRowOwnerPid
 
         #region Nested type: UdpTableClass
 
@@ -416,10 +445,6 @@ namespace MTorrent
             UdpTableOwnerModule
         }
 
-        #endregion
+        #endregion Nested type: UdpTableClass
     }
-
-
 }
-
-

@@ -92,7 +92,7 @@ namespace MTorrent
             _state = 0;
         }
 
-        #endregion
+        #endregion Constructors
 
         public static Process[] Processes
         {
@@ -161,7 +161,6 @@ namespace MTorrent
             get { return _connectType; }
         }
 
-
         public static void UpdateProcessList()
         {
             if (_allProc != null)
@@ -179,9 +178,9 @@ namespace MTorrent
         {
             var b = new Byte[2];
             // high weight byte
-            b[0] = (byte) (dwPort >> 8);
+            b[0] = (byte)(dwPort >> 8);
             // low weight byte
-            b[1] = (byte) (dwPort & 255);
+            b[1] = (byte)(dwPort & 255);
 
             return BitConverter.ToUInt16(b, 0);
         }

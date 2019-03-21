@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NetworkInfo
 {
@@ -11,34 +8,39 @@ namespace NetworkInfo
         public enum ProtocoleType
         {
             //
-            // Summary: 
+            // Summary:
             //     TCP.
             TCP = 0, // tut buv Vasia
+
             //
             // Summary:
             //     UDP.
             UDP = 1
         }
+
         public enum IPEndPointStatus
         {
             //
             // Summary:
             //     Listen.
             Listen = 0,
+
             //
             // Summary:
             //     Unknown.
             Connected = 1,
+
             //
             // Summary:
             //     Unknown.
             Unknown = 2
         }
+
         #region Singleton Properties
 
         private static IPEndPoint[] InstanceArray = null;
 
-        #endregion
+        #endregion Singleton Properties
 
         #region Const
 
@@ -47,13 +49,14 @@ namespace NetworkInfo
         //     Specifies the maximum value that can be assigned to the IPEndPoint.Port
         //     property. The MaxPort value is set to 0x0000FFFF. This field is read-only.
         public const int MaxPort = 65535;
+
         //
         // Summary:
         //     Specifies the minimum value that can be assigned to the IPEndPoint.Port
         //     property. This field is read-only.
         public const int MinPort = 0;
 
-        #endregion
+        #endregion Const
 
         #region Properties
 
@@ -64,6 +67,7 @@ namespace NetworkInfo
         // Returns:
         //     An string containing the IP address of the endpoint.
         public string Address { get; private set; }
+
         //
         // Summary:
         //     Gets the port number of the endpoint.
@@ -71,6 +75,7 @@ namespace NetworkInfo
         // Returns:
         //     An integer value in the range IPEndPoint.MinPort to IPEndPoint.MaxPort indicating the port number of the endpoint.
         public int Port { get; private set; }
+
         //
         // Summary:
         //     Gets the trancfer protocol type of the endpoint.
@@ -78,6 +83,7 @@ namespace NetworkInfo
         // Returns:
         //     An enum value from NA.Domain.Models.Enums.ProtocoleType of the endpoint.
         public ProtocoleType Type { get; private set; }
+
         //
         // Summary:
         //     Gets the current status of the endpoint.
@@ -85,6 +91,7 @@ namespace NetworkInfo
         // Returns:
         //     An enum value from NA.Domain.Models.Enums.IPEndPointStatus of the endpoint.
         public IPEndPointStatus Status { get; private set; }
+
         //
         // Summary:
         //     Gets the current IP address of endpoint connection.
@@ -93,7 +100,7 @@ namespace NetworkInfo
         //     An string value of current IP address endpoint connection.
         public string Connection { get; private set; }
 
-        #endregion
+        #endregion Properties
 
         #region Constructor
 
@@ -152,14 +159,13 @@ namespace NetworkInfo
             return InstanceArray;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Methods
 
         public override string ToString() =>
             Address + ":" + Port.ToString();
 
-        #endregion
-
+        #endregion Methods
     }
 }

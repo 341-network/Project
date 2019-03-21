@@ -1,16 +1,15 @@
-﻿using System;
+﻿using MTorrent;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Windows.Forms;
-using MTorrent;
 
 namespace NetworkInfo
 {
     public partial class Form1 : Form
     {
-        
         private List<Connection> _allConnections = new List<Connection>();
         private int selectedProcessId = -1;
 
@@ -34,13 +33,12 @@ namespace NetworkInfo
         private void Button1Click(object sender, EventArgs e)
         {
             UpdateInfo();
-//             WriteToGrid(selectedProcessId);
+            //             WriteToGrid(selectedProcessId);
             UpdateProcesses();
         }
 
         private void UpdateInfo()
         {
-            
             _allConnections.Clear();
 
             _allConnections.AddRange(NetworkInformation.GetTcpV4Connections());
@@ -53,9 +51,9 @@ namespace NetworkInfo
         {
             Connection.UpdateProcessList();
 
-			dataGridView1.Rows.Clear();
+            dataGridView1.Rows.Clear();
 
-			for (int index = 0; index < Connection.Processes.Length; index++)
+            for (int index = 0; index < Connection.Processes.Length; index++)
             {
                 Process process = Connection.Processes[index];
 
@@ -64,14 +62,12 @@ namespace NetworkInfo
                 item.ImageKey = process.Id.ToString();
                 item.Tag = process.Id;
 
-				WriteToGrid(process.Id);
-			}
-
-		}
+                WriteToGrid(process.Id);
+            }
+        }
 
         private void ListView1SelectedIndexChanged(object sender, EventArgs e)
         {
-
         }
 
         private void WriteToGrid(int procId)
@@ -93,19 +89,21 @@ namespace NetworkInfo
                         if (checkBoxTcp.Checked && checkBoxV4.Checked) ok = true;
                         ++tcpv4;
                         break;
+
                     case ConnectType.Udp:
                         if (checkBoxUdp.Checked && checkBoxV4.Checked) ok = true;
                         ++udpv4;
                         break;
+
                     case ConnectType.TcPv6:
                         if (checkBoxTcp.Checked && checkBoxV6.Checked) ok = true;
                         ++tcpv6;
                         break;
+
                     case ConnectType.UdPv6:
                         if (checkBoxUdp.Checked && checkBoxV6.Checked) ok = true;
                         ++udpv6;
                         break;
-                        
                 }
 
                 if (info.State == TcpState.Listen)
@@ -130,7 +128,6 @@ namespace NetworkInfo
                 }
             }
 
-
             toolStripStatusLabel1.Text = string.Format("TCPv4 {0}", tcpv4);
             toolStripStatusLabel2.Text = string.Format("TCPv6 {0}", tcpv6);
 
@@ -144,13 +141,14 @@ namespace NetworkInfo
         private void timer1_Tick(object sender, EventArgs e)
         {
             //timer1.Interval = 1000;
-           // UpdateProcesses();
-          //  Connection.UpdateProcessList();
-        //    WriteToGrid(selectedProcessId);
-//             _allConnections = NetworkInformation.GetProcessTcpActivity(selectedProcessId);
-//             dataGridView1.DataSource = _allConnections;
+            // UpdateProcesses();
+            //  Connection.UpdateProcessList();
+            //    WriteToGrid(selectedProcessId);
+            //             _allConnections = NetworkInformation.GetProcessTcpActivity(selectedProcessId);
+            //             dataGridView1.DataSource = _allConnections;
         }
-         public  void ShowNetworkProperties()
+
+        public void ShowNetworkProperties()
         {
             dataGridView2.Columns[0].Width = 400;
             var properties = new NetworkPropertiesService().GetNetworkProperties();
@@ -176,10 +174,9 @@ namespace NetworkInfo
                 dataGridView2.Rows.Add("Is DNS enabled : " + adapter.IsDnsEnabled);
                 dataGridView2.Rows.Add("Is dynamic DNS enabled : " + adapter.IsDynamicDnsEnabled);
                 dataGridView2.Rows.Add("Supports Multicast : " + adapter.SupportsMulticast);
-              
             }
             dataGridView2.Rows.Add("\n IP End Points .............. : " + properties.IPEndPoints.Length);
-           
+
             foreach (var ipEndPoint in properties.IPEndPoints)
             {
                 dataGridView2.Rows.Add("\n " + ipEndPoint);
@@ -187,7 +184,6 @@ namespace NetworkInfo
                 dataGridView2.Rows.Add("Status : " + ipEndPoint.Status);
                 dataGridView2.Rows.Add("Status : " + ipEndPoint.Status);
                 dataGridView2.Rows.Add("Connection : " + ipEndPoint.Connection);
-               
             }
         }
 
@@ -198,7 +194,6 @@ namespace NetworkInfo
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
