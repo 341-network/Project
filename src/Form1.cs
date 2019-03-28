@@ -13,7 +13,7 @@ namespace NetworkInfo
         #region Fields
 
         private List<Connection> _allConnections = new List<Connection>();
-        private int selectedProcessId = -1;
+        private int _selectedProcessId = -1;
 
         #endregion Fields
 
@@ -29,19 +29,22 @@ namespace NetworkInfo
 
         #region Methods
 
-        public void ShowNetworkInterfacesInfo()
+        public void UpdateNetworkAdaptersInfo()
         {
             dataGridView2.Columns[0].Width = 400;
             dataGridView2.Rows.Clear();
 
-            foreach (var adapter in NetworkIntarfaceInfo.GetAllNetworkInterfaces())
+            foreach (var adapter in NetworkAdapter.GetAllNetworkAdapters())
             {
                 dataGridView2.Rows.Add(string.Format("Index: {0}", adapter.Index));
-                dataGridView2.Rows.Add(string.Format("Description: {0}", adapter.Description));
+                dataGridView2.Rows.Add(string.Format("ProductName: {0}", adapter.ProductName));
                 dataGridView2.Rows.Add(string.Format("ServiceName: {0}", adapter.ServiceName));
                 dataGridView2.Rows.Add(string.Format("MACAddress: {0}", adapter.MACAddress));
                 dataGridView2.Rows.Add(string.Format("IPAddress: {0}", adapter.IPAddress));
-
+                dataGridView2.Rows.Add(string.Format("IsPhysicalAdapter: {0}", adapter.IsPhysicalAdapter));
+                dataGridView2.Rows.Add(string.Format("AdapterType: {0}", adapter.AdapterType));
+                dataGridView2.Rows.Add(string.Format("NetConnectionID: {0}", adapter.NetConnectionID));
+                dataGridView2.Rows.Add(string.Format("IsNetEnabled: {0}", adapter.IsNetEnabled));
                 dataGridView2.Rows.Add();
                 dataGridView2.Rows.Add();
             }
@@ -55,20 +58,20 @@ namespace NetworkInfo
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ShowNetworkInterfacesInfo();
+            UpdateNetworkAdaptersInfo();
         }
 
         private void CheckBox3CheckedChanged(object sender, EventArgs e)
         {
             dataGridView1.Rows.Clear();
-            WriteToGrid(selectedProcessId);
+            WriteToGrid(_selectedProcessId);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             UpdateInfo();
             UpdateProcesses();
-            ShowNetworkInterfacesInfo();
+            UpdateNetworkAdaptersInfo();
         }
 
         private void UpdateInfo()

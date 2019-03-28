@@ -55,7 +55,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="NetworkInformation.cs" />
-    <Compile Include="NetworkIntarfaceInfo.cs" />
+    <Compile Include="NetworkAdapter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
