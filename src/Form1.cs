@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Windows.Forms;
-using System.Management;
 
 namespace NetworkInfo
 {
@@ -30,50 +29,22 @@ namespace NetworkInfo
 
         #region Methods
 
-        public void ShowNetworkProperties()
+        public void ShowNetworkInterfacesInfo()
         {
-            var namesOfInterfaces = new System.Text.StringBuilder();
-            foreach (var item in new ManagementClass("Win32_NetworkAdapterConfiguration").GetInstances())
+            dataGridView2.Columns[0].Width = 400;
+            dataGridView2.Rows.Clear();
+
+            foreach (var adapter in NetworkIntarfaceInfo.GetAllNetworkInterfaces())
             {
-                namesOfInterfaces.AppendLine(item["Caption"].ToString());
+                dataGridView2.Rows.Add(string.Format("Index: {0}", adapter.Index));
+                dataGridView2.Rows.Add(string.Format("Description: {0}", adapter.Description));
+                dataGridView2.Rows.Add(string.Format("ServiceName: {0}", adapter.ServiceName));
+                dataGridView2.Rows.Add(string.Format("MACAddress: {0}", adapter.MACAddress));
+                dataGridView2.Rows.Add(string.Format("IPAddress: {0}", adapter.IPAddress));
+
+                dataGridView2.Rows.Add();
+                dataGridView2.Rows.Add();
             }
-            MessageBox.Show(namesOfInterfaces.ToString());
-
-            //dataGridView2.Columns[0].Width = 400;
-            //var properties = new NetworkPropertiesService().GetNetworkProperties();
-            //dataGridView2.Rows.Clear();
-
-            //dataGridView2.Rows.Add(" Network information of " + properties.HostName + "." + properties.DomainName);
-            //dataGridView2.Rows.Add(" DHCP scope name : " + properties.DhcpScopeName);
-            //dataGridView2.Rows.Add(" WINS proxy : " + properties.IsWinsProxy);
-            //dataGridView2.Rows.Add(" Network BIOS node type : " + properties.NodeType);
-            //dataGridView2.Rows.Add("Is network available : " + properties.IsNetworkAvailable);
-            //dataGridView2.Rows.Add(" Network interfaces : " + properties.NetworkInterfaces.Length);
-            //foreach (var adapter in properties.NetworkInterfaces)
-            //{
-            //    dataGridView2.Rows.Add();
-            //    dataGridView2.Rows.Add("\n " + adapter.Description + " " + adapter.Id);
-            //    dataGridView2.Rows.Add(" " + string.Empty.PadLeft(adapter.Description.Length + 1 + adapter.Id.Length, '='));
-            //    dataGridView2.Rows.Add("Name : " + adapter.Name);
-            //    dataGridView2.Rows.Add("Type : " + adapter.Type);
-            //    dataGridView2.Rows.Add("Speed : " + adapter.Speed);
-            //    dataGridView2.Rows.Add("Operational status : " + adapter.Status);
-            //    dataGridView2.Rows.Add("Physical Address : " + adapter.PhysicalAddress);
-            //    dataGridView2.Rows.Add("Is Receive Only : " + adapter.IsReceiveOnly);
-            //    dataGridView2.Rows.Add("Is DNS enabled : " + adapter.IsDnsEnabled);
-            //    dataGridView2.Rows.Add("Is dynamic DNS enabled : " + adapter.IsDynamicDnsEnabled);
-            //    dataGridView2.Rows.Add("Supports Multicast : " + adapter.SupportsMulticast);
-            //}
-            //dataGridView2.Rows.Add("\n IP End Points .............. : " + properties.IPEndPoints.Length);
-
-            //foreach (var ipEndPoint in properties.IPEndPoints)
-            //{
-            //    dataGridView2.Rows.Add("\n " + ipEndPoint);
-            //    dataGridView2.Rows.Add("Type : " + ipEndPoint.Type);
-            //    dataGridView2.Rows.Add("Status : " + ipEndPoint.Status);
-            //    dataGridView2.Rows.Add("Status : " + ipEndPoint.Status);
-            //    dataGridView2.Rows.Add("Connection : " + ipEndPoint.Connection);
-            //}
         }
 
         private void Button1Click(object sender, EventArgs e)
@@ -84,7 +55,7 @@ namespace NetworkInfo
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ShowNetworkProperties();
+            ShowNetworkInterfacesInfo();
         }
 
         private void CheckBox3CheckedChanged(object sender, EventArgs e)
@@ -97,7 +68,7 @@ namespace NetworkInfo
         {
             UpdateInfo();
             UpdateProcesses();
-            ShowNetworkProperties();
+            ShowNetworkInterfacesInfo();
         }
 
         private void UpdateInfo()
