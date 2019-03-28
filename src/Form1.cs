@@ -36,15 +36,20 @@ namespace NetworkInfo
 
             foreach (var adapter in NetworkAdapter.GetAllNetworkAdapters())
             {
-                dataGridView2.Rows.Add(string.Format("Index: {0}", adapter.Index));
-                dataGridView2.Rows.Add(string.Format("ProductName: {0}", adapter.ProductName));
-                dataGridView2.Rows.Add(string.Format("ServiceName: {0}", adapter.ServiceName));
-                dataGridView2.Rows.Add(string.Format("MACAddress: {0}", adapter.MACAddress));
-                dataGridView2.Rows.Add(string.Format("IPAddress: {0}", adapter.IPAddress));
-                dataGridView2.Rows.Add(string.Format("IsPhysicalAdapter: {0}", adapter.IsPhysicalAdapter));
-                dataGridView2.Rows.Add(string.Format("AdapterType: {0}", adapter.AdapterType));
-                dataGridView2.Rows.Add(string.Format("NetConnectionID: {0}", adapter.NetConnectionID));
-                dataGridView2.Rows.Add(string.Format("IsNetEnabled: {0}", adapter.IsNetEnabled));
+                dataGridView2.Rows.Add(string.Format("Index:   {0}", adapter.Index));
+                dataGridView2.Rows.Add(string.Format("AdapterName:   {0}", adapter.ProductName));
+                dataGridView2.Rows.Add(string.Format("ServiceName:   {0}", adapter.ServiceName));
+                dataGridView2.Rows.Add(string.Format("MACAddress:   {0}", adapter.MACAddress));
+                var ipAddresses = new System.Text.StringBuilder();
+                foreach (var ipAddress in adapter.IPAddresses)
+                {
+                    ipAddresses.Append(string.Format("<{0}>   ", ipAddress));
+                }
+                dataGridView2.Rows.Add(string.Format("IPAddresses:   {0}", ipAddresses.ToString()));
+                dataGridView2.Rows.Add(string.Format("IsPhysicalAdapter:   {0}", adapter.IsPhysicalAdapter));
+                dataGridView2.Rows.Add(string.Format("AdapterType:   {0}", adapter.AdapterType));
+                dataGridView2.Rows.Add(string.Format("NetConnectionID:   {0}", adapter.NetConnectionID));
+                dataGridView2.Rows.Add(string.Format("IsEnabled:   {0}", adapter.IsNetEnabled));
                 dataGridView2.Rows.Add();
                 dataGridView2.Rows.Add();
             }

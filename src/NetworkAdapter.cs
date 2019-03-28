@@ -37,11 +37,19 @@ namespace NetworkInfo
             }
         }
 
-        public string IPAddress
+        public string[] IPAddresses
         {
             get
             {
-                return (string)(_adapter["PermanentAddress"] ?? "");
+                foreach (var adapter in new ManagementClass("Win32_NetworkAdapterConfiguration").GetInstances())
+                {
+                    uint index = (uint)(adapter["Index"] ?? -1);
+                    if (index == Index)
+                    {
+                        return (string[])(adapter["IPAddress"] ?? new string[0]);
+                    }
+                }
+                return new string[0];
             }
         }
 
