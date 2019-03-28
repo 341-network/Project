@@ -1,23 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Management;
 
 namespace NetworkInfo
 {
     public class NetworkIntarfaceInfo
     {
-        public uint Index { get; private set; }
-        public string ServiceName { get; private set; }
-        public string MACAddress { get; private set; }
-        public string IPAddress { get; private set; }
-        public string Description { get; private set; }
+        #region Constructors
 
         public NetworkIntarfaceInfo()
         {
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public string Description { get; private set; }
+        public uint Index { get; private set; }
+        public string IPAddress { get; private set; }
+        public string MACAddress { get; private set; }
+        public string ServiceName { get; private set; }
+
+        #endregion Properties
+
+        #region Methods
 
         public static List<NetworkIntarfaceInfo> GetAllNetworkInterfaces()
         {
@@ -35,5 +41,7 @@ namespace NetworkInfo
             }
             return adapters;
         }
+
+        #endregion Methods
     }
 }
