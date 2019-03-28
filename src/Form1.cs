@@ -33,7 +33,7 @@ namespace NetworkInfo
         {
             dataGridView2.Columns[0].Width = 400;
             dataGridView2.Rows.Clear();
-
+            comboBox_AdaptersIndices.Items.Clear();
             foreach (var adapter in NetworkAdapter.GetAllNetworkAdapters())
             {
                 dataGridView2.Rows.Add(string.Format("Index:   {0}", adapter.Index));
@@ -52,6 +52,34 @@ namespace NetworkInfo
                 dataGridView2.Rows.Add(string.Format("IsEnabled:   {0}", adapter.IsNetEnabled));
                 dataGridView2.Rows.Add();
                 dataGridView2.Rows.Add();
+                if (adapter.CanDisableOrEnable())
+                {
+                    comboBox_AdaptersIndices.Items.Add(string.Format("{0}_{1}", adapter.Index, adapter.ProductName));
+                }
+            }
+        }
+
+        private void button_EnableDisableAdapter_Click(object sender, EventArgs e)
+        {
+            if (comboBox_AdaptersIndices.Items.Contains(comboBox_AdaptersIndices.Text))
+            {
+                uint targetAdapterIndex = Convert.ToUInt32(comboBox_AdaptersIndices.Text.Split('_')[0]);
+                foreach (var adapter in NetworkAdapter.GetAllNetworkAdapters())
+                {
+                    if (adapter.Index == targetAdapterIndex)
+                    {
+                        if (adapter.IsNetEnabled)
+                        {
+                            adapter.Disable();
+                        }
+                        else
+                        {
+                            adapter.Enable();
+                        }
+                        UpdateNetworkAdaptersInfo();
+                        break;
+                    }
+                }
             }
         }
 

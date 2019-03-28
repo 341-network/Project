@@ -56,6 +56,9 @@
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.comboBox_AdaptersIndices = new System.Windows.Forms.ComboBox();
+            this.button_EnableDisableAdapter = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.Info = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button2 = new System.Windows.Forms.Button();
@@ -360,6 +363,9 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.comboBox_AdaptersIndices);
+            this.tabPage2.Controls.Add(this.button_EnableDisableAdapter);
+            this.tabPage2.Controls.Add(this.label1);
             this.tabPage2.Controls.Add(this.dataGridView2);
             this.tabPage2.Controls.Add(this.button2);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -369,6 +375,36 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Adapters";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // comboBox_AdaptersIndices
+            // 
+            this.comboBox_AdaptersIndices.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.comboBox_AdaptersIndices.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBox_AdaptersIndices.ImeMode = System.Windows.Forms.ImeMode.Disable;
+            this.comboBox_AdaptersIndices.Location = new System.Drawing.Point(8, 31);
+            this.comboBox_AdaptersIndices.MaxDropDownItems = 20;
+            this.comboBox_AdaptersIndices.Name = "comboBox_AdaptersIndices";
+            this.comboBox_AdaptersIndices.Size = new System.Drawing.Size(362, 21);
+            this.comboBox_AdaptersIndices.TabIndex = 7;
+            // 
+            // button_EnableDisableAdapter
+            // 
+            this.button_EnableDisableAdapter.Location = new System.Drawing.Point(376, 30);
+            this.button_EnableDisableAdapter.Name = "button_EnableDisableAdapter";
+            this.button_EnableDisableAdapter.Size = new System.Drawing.Size(116, 23);
+            this.button_EnableDisableAdapter.TabIndex = 6;
+            this.button_EnableDisableAdapter.Text = "Enable / Disable";
+            this.button_EnableDisableAdapter.UseVisualStyleBackColor = true;
+            this.button_EnableDisableAdapter.Click += new System.EventHandler(this.button_EnableDisableAdapter_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(86, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Network adapter";
             // 
             // dataGridView2
             // 
@@ -428,6 +464,7 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -463,6 +500,9 @@
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Info;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button_EnableDisableAdapter;
+        private System.Windows.Forms.ComboBox comboBox_AdaptersIndices;
     }
 }
 
